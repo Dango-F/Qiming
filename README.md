@@ -13,9 +13,9 @@
 在 **macOS 26 及以上**，栖明使用 AppKit 的原生 `NSGlassEffectView`（Clear 样式）。主面板和模块玻璃卡片保留系统绘制的圆角折射与边缘高光。文字和控件独立绘制，调节通透度时只柔化背景。
 
 <p align="center">
-  <img src="Documentation/screenshots/qiming-liquid-glass.jpg" width="352" alt="栖明主面板实机截图，展示模块玻璃卡片和四种内屏策略">
+  <img src="Documentation/screenshots/qiming-liquid-glass.jpg" width="416" alt="栖明主面板置于蓝紫色与暖橙色背景上，展示液态玻璃的背景透色与圆角边缘">
 </p>
-<p align="center"><sub>macOS 27.2 实机截图 · 模块玻璃主面板</sub></p>
+<p align="center"><sub>macOS 27.2 实机截图 · 彩色背景下的模块玻璃主面板（演示状态）</sub></p>
 
 在「**设置 → 通用 → Liquid Glass**」可以切换界面方案，并用实时预览调节通透度。滑块向左柔化背景细节，向右让背景更通透。macOS 14–15 使用 `NSVisualEffectView` 提供备用材质。
 
