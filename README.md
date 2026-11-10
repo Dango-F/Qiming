@@ -8,7 +8,18 @@
 
 [图文使用手册](Documentation/使用手册/Qiming使用手册.md) · [产品与技术设计](Qiming-产品功能与技术栈.md) · [图标设计](design-assets/qiming-icon-v2/README.md)
 
-![主面板导览，展示四种策略、状态灯、时长和快捷操作](Documentation/使用手册/assets/panel-map.svg)
+## 原生液态玻璃
+
+在 **macOS 26 及以上**，栖明使用 AppKit 的原生 `NSGlassEffectView`（Clear 样式）。主面板和模块玻璃卡片保留系统绘制的圆角折射与边缘高光。文字和控件独立绘制，调节通透度时只柔化背景。
+
+<p align="center">
+  <img src="Documentation/screenshots/qiming-liquid-glass.jpg" width="352" alt="栖明主面板实机截图，展示模块玻璃卡片和四种内屏策略">
+</p>
+<p align="center"><sub>macOS 27.2 实机截图 · 模块玻璃主面板</sub></p>
+
+在「**设置 → 通用 → Liquid Glass**」可以切换界面方案，并用实时预览调节通透度。滑块向左柔化背景细节，向右让背景更通透。macOS 14–15 使用 `NSVisualEffectView` 提供备用材质。
+
+![栖明通用设置实机截图，展示液态玻璃预览与通透度滑块](Documentation/screenshots/qiming-liquid-glass-preview.jpg)
 
 ## 系统要求
 
@@ -19,6 +30,8 @@
 ## 使用方式
 
 打开栖明后，**左键**点击菜单栏的羽翼图标可展开或收起面板。**右键**在没有会话时开启「合盖熄屏，持续运行」，有会话时结束当前会话。
+
+![主面板导览，展示四种策略、状态灯、时长和快捷操作](Documentation/使用手册/assets/panel-map.svg)
 
 | 策略 | 开盖时 | 合盖时 |
 | --- | --- | --- |
