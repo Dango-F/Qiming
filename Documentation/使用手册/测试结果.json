@@ -1,0 +1,146 @@
+{
+  "date": "2026-11-03",
+  "result": "Passed",
+  "total_tests": 30,
+  "passed_tests": 30,
+  "failed_tests": 0,
+  "skipped_tests": 0,
+  "parameterized_executions": 33,
+  "scope": "Existing SessionRules tests; no physical lid or power-changing tests",
+  "ui_interaction_regression": {
+    "date": "2026-11-04",
+    "presentation_cases": 24,
+    "failures": 0,
+    "same_event_resign_toggle": "Passed; prior synchronous candidate reproduces two failures",
+    "native_fade_intermediate_alpha": true,
+    "rapid_close_reopen": "Passed",
+    "top_anchor_during_resize": "Passed",
+    "power_button_routing": "Passed",
+    "right_click_user_confirmation": "Passed",
+    "final_left_click_user_confirmation": "Passed",
+    "physical_lid_tests_repeated": false,
+    "stable_status_colors": "Passed: gray->green; green policy switches; green->gray; waiting/error retained",
+    "native_right_policy_switches": "Passed: exclusivity in all 24 transitions; alignment, off restores system, confirmed state, risk/setup, busy disabled",
+    "compact_controls_and_units": "Passed: 42pt switch visual, shared trailing edge in 24 cases, title-sized popup, permanent minutes label",
+    "compact_controls_final_gui": "Passed: actual visible trailing edges aligned; selected-title popup compact; non-empty custom field shows minutes; cancel preserves duration; helper connected and original closed session restored",
+    "black_text_sharpness": "Passed: original black-text main panel visually reviewed without old label halo; optical source unchanged; 24 presentation cases passed; helper connected and closed session restored"
+  },
+  "footer_refresh": {
+    "date": "2026-11-04",
+    "result": "Passed",
+    "backup": "Backups/2026-11-04-footer-refresh-before/Source.tar.gz",
+    "backup_sha256": "a1437c95eff13a4a0d8545954c14e1ec8214e5945d9a048efc71820db0143d3d",
+    "changes": [
+      "Two-row footer; header owns status and session power; icon-only quit with tooltip and accessibility label",
+      "Aligned footer leading/trailing edges with 312pt policy grid",
+      "Clear Glass first/default; equal-length Chinese names 清透玻璃/柔和玻璃; existing persisted values retained",
+      "Actual custom minutes shown in selection; existing value prefilled when editing"
+    ],
+    "presentation_cases": 24,
+    "presentation_failures": 0,
+    "custom_minutes_checked": [
+      90,
+      92.5,
+      10080
+    ],
+    "actual_gui_custom_minutes": 45,
+    "actual_gui_scheme_order": [
+      "清透玻璃",
+      "柔和玻璃"
+    ],
+    "default_selected": "backupBlack",
+    "transparency": 0.75,
+    "debug_build_passed": true,
+    "release_build_passed": true,
+    "strict_signatures_passed": true,
+    "helper_connected": true,
+    "restored_strategy": "closed",
+    "restored_session_duration_minutes": 45,
+    "final_status": {
+      "checked_at_utc": "2026-11-03T20:04:23Z",
+      "phase": "active",
+      "systemAssertion": true,
+      "displayAssertion": true,
+      "SleepDisabled": true,
+      "error": "none"
+    },
+    "log": "Documentation/底部简化与时长验证.log",
+    "physical_lid_tests_repeated": false
+  },
+  "custom_duration_menu": {
+    "date": "2026-11-04",
+    "result": "Passed",
+    "collapsed_display": "45 分钟",
+    "expanded_command": "自定义时长…",
+    "native_cell": "usesItemFromMenu=false; independent display menuItem",
+    "black_title_after_dismiss": "Passed; display menuItem attributedTitle kept black",
+    "accessibility_value": "45 分钟",
+    "presentation_cases": 24,
+    "presentation_failures": 0,
+    "helper": "组件已连接，通信正常",
+    "current_strategy": "closed",
+    "current_duration_preference_minutes": 45,
+    "session_kept_after_user_started": true,
+    "backup": "Backups/2026-11-04-custom-duration-menu-before/Source.tar.gz",
+    "log": "Documentation/自定义时长菜单验证.log"
+  },
+  "glass_edge_fix": {
+    "date": "2026-11-04",
+    "code_and_build": "Passed",
+    "final_gui_and_helper": "Passed after manual unlock",
+    "backup": "Backups/2026-11-04-glass-edge-before/Source.tar.gz",
+    "backup_sha256": "4779938ceddec0dc5162eb4904568d5e51dbc4dd04b44cf39ba8d5b2f77b908d",
+    "outer_edge": "Removed fixed 3pt inset; only one physical pixel of native highlight is exposed",
+    "inner_padding": "Expanded backdrop sampling by 26pt per edge; rounded output crop handled independently",
+    "optical_regression_cases": 20,
+    "policy_transition_cases": 24,
+    "failures": 0,
+    "same_preview_visual_review": [
+      0,
+      0.75,
+      1
+    ],
+    "same_preview_result": "Wide inner light bands eliminated in side-by-side review; blur response and foreground clarity retained",
+    "debug_build_passed": true,
+    "release_build_passed": true,
+    "strict_signatures_passed": true,
+    "log": "Documentation/玻璃边缘修复验证.log",
+    "existing_session_deadline_elapsed_during_interruption": true,
+    "intended_final_strategy": "system",
+    "helper": "组件已连接，通信正常",
+    "installed_settings_slider_verified": [
+      0,
+      1
+    ],
+    "restored_glass_transparency": 0.75,
+    "observed_final_strategy": "closed",
+    "main_panel_visual_scope": "Rounded outline checked; external backdrop is excluded from single-window capture"
+  },
+  "gray_glass_variants": {
+    "variants": [
+      "grayUniform",
+      "grayCards"
+    ],
+    "prechange_backup": "Backups/2026-11-04-gray-glass-before/Source.tar.gz",
+    "presentation_transitions": 48,
+    "optical_edge_cases": 40,
+    "debug_and_release_builds": "Passed",
+    "white_backdrop_main_panel_review": "Both schemes checked in the native preview with white and colored backdrop regions",
+    "release_settings_switching": "Both new choices confirmed",
+    "helper": "组件已连接，通信正常",
+    "restored_choice": "backupBlack",
+    "restored_transparency": 0.75,
+    "log": "Documentation/灰色玻璃验证.log"
+  },
+  "gray_glass_refinement": {
+    "prechange_backup": "Backups/2026-11-04-gray-glass-lightening-before/Source.tar.gz",
+    "presentation_transitions": 48,
+    "optical_edge_cases": 40,
+    "native_card_lens": "NSGlassEffectView.clear with recessed gray backing",
+    "debug_and_release_builds": "Passed",
+    "installed_preview": "Both variants checked",
+    "helper": "组件已连接，通信正常",
+    "restored_choice": "grayUniform",
+    "log": "Documentation/灰色玻璃验证.log"
+  }
+}

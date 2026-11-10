@@ -1,0 +1,53 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "linear-gradient": [
+          "srgb:0.14510,0.21569,0.29412,1.00000",
+          "srgb:0.06275,0.10588,0.16863,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.14902,0.22745,0.31373,1.00000",
+          "srgb:0.04706,0.07843,0.12941,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "layers": [
+        {
+          "name": "香槟金内翼 · Inner light",
+          "image-name": "InnerWing.svg",
+          "glass": false,
+          "hidden": false
+        },
+        {
+          "name": "珍珠银外翼 · Resting wing",
+          "image-name": "OuterWing.svg",
+          "glass": false,
+          "hidden": false
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0
+      },
+      "specular": false,
+      "translucency": {
+        "enabled": false,
+        "value": 0
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": [
+      "macOS"
+    ]
+  }
+}

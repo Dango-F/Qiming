@@ -1,0 +1,46 @@
+{
+  "measurement_date_local": "2026-11-05",
+  "microbenchmark": {
+    "after_fast_supply_and_thermal": {
+      "cpu_us_per_call": 14.24,
+      "mean_us": 56.898022,
+      "median_us": 50.25,
+      "p95_us": 102.417,
+      "samples": 500
+    },
+    "before_full_snapshot": {
+      "cpu_us_per_call": 54.56,
+      "mean_us": 114.242504,
+      "median_us": 115.792,
+      "p95_us": 166.125,
+      "samples": 500
+    },
+    "date": "2026-11-05T08:24:51Z",
+    "scope": "Read-only component microbenchmark, alternating order, 20 warmups, 500 samples each; excludes notification delivery, UI, async scheduling and physical power changes."
+  },
+  "current_process_sample": {
+    "sample_seconds": 30.004683582985308,
+    "scope": "Current installed processes only; no matched pre-change idle measurement.",
+    "processes": [
+      {
+        "pid": 34232,
+        "cpu_seconds_delta": 0.04999999999999982,
+        "average_percent_of_one_core": 0.16664065082277094,
+        "rss_mib_start": 151.859375,
+        "rss_mib_end": 151.859375
+      },
+      {
+        "pid": 34234,
+        "cpu_seconds_delta": 0.009999999999999995,
+        "average_percent_of_one_core": 0.03332813016455429,
+        "rss_mib_start": 10.578125,
+        "rss_mib_end": 10.578125
+      }
+    ]
+  },
+  "limits": [
+    "No physical charger disconnect test in this run.",
+    "No matched before/after whole-app CPU or battery-drain run.",
+    "No code or runtime power policy changes made for this performance review."
+  ]
+}

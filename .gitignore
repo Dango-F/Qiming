@@ -1,0 +1,41 @@
+# 构建、打包和测试产物
+/build/
+/dist/
+/DerivedData/
+.build/
+.swiftpm/
+*.xcresult/
+*.dSYM/
+*.app/
+
+# Xcode 用户状态，保留共享 Scheme 和工程配置
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# 本机签名配置和密钥
+/Config/Signing.xcconfig
+*.p12
+*.pfx
+*.p8
+*.developerprofile
+*.key
+*.pem
+*.mobileprovision
+*.provisionprofile
+
+# 本地环境和缓存
+.DS_Store
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# 本地备份和运行记录
+/Backups
+*.log
+/Documentation/构建验证结果.json
+/Documentation/开发与验收记录.md
+/design-assets/qiming-icon-v2/validation.json

@@ -1,0 +1,53 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : {
+        "linear-gradient" : [
+          "srgb:0.14902,0.20784,0.25882,1.00000",
+          "srgb:0.08235,0.12941,0.16863,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "linear-gradient" : [
+          "srgb:0.16078,0.23137,0.28627,1.00000",
+          "srgb:0.06275,0.10196,0.14118,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "Lid.svg",
+          "name" : "雾银盖沿 · Lid"
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "Light.svg",
+          "name" : "暖金光核 · Light"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "macOS"
+    ]
+  }
+}

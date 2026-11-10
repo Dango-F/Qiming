@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BundleProgram</key>
+	<string>Contents/Library/HelperTools/QimingHelper</string>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>com.qiming.mac.helper</string>
+	<key>MachServices</key>
+	<dict>
+		<key>com.qiming.mac.helper</key>
+		<true/>
+	</dict>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>ThrottleInterval</key>
+	<integer>30</integer>
+</dict>
+</plist>
