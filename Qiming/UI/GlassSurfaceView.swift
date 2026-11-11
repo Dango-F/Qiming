@@ -16,11 +16,22 @@ enum GlassAppearanceVariant: String, CaseIterable {
     case grayCards, grayUniform, backupBlack, optimized
 
     var titleKey: String { "glass.variant." + rawValue }
-    var usesWhiteInk: Bool { self == .grayUniform || self == .grayCards }
+    var usesGrayBacking: Bool { self == .grayUniform || self == .grayCards }
     var usesCards: Bool { self == .grayCards }
     static var current: Self {
         Self(rawValue: UserDefaults.standard.string(forKey: "glassAppearanceVariant") ?? "") ?? .grayCards
     }
+}
+
+enum GlassFontColor: String, CaseIterable {
+    case black, white
+
+    var titleKey: String { "glass.fontColor." + rawValue }
+    var ink: NSColor { self == .black ? .black : .white }
+}
+
+@MainActor protocol GlassTextStyling: AnyObject {
+    func updateTextColor()
 }
 
 /// Shared host for the appearance variants. Switching replaces the optical surface,
@@ -32,6 +43,16 @@ enum GlassAppearanceVariant: String, CaseIterable {
     private var surface: NSView?
     var variant = GlassAppearanceVariant.current {
         didSet { if variant != oldValue { rebuild() } }
+    }
+    var fontColor: GlassFontColor = .white {
+        didSet {
+            guard fontColor != oldValue else { return }
+            func refreshText(in view: NSView) {
+                (view as? GlassTextStyling)?.updateTextColor()
+                view.subviews.forEach(refreshText)
+            }
+            refreshText(in: content)
+        }
     }
     var transparency = GlassConfiguration.defaultTransparency {
         didSet { updateTransparency() }
@@ -185,7 +206,7 @@ enum GlassAppearanceVariant: String, CaseIterable {
             focusSurface?.backgroundFilters = key == 0 ? [color] : [focus, color]
         }
         // Constant contrast treatment; the slider controls focus radius only.
-        if variant.usesWhiteInk {
+        if variant.usesGrayBacking {
             // Cards supply their own gray backing. Keep the shared surface
             // nearly clear so the two layers do not hide the backdrop.
             let opacity = reduceTransparency ? 1 : increasedContrast ? 0.96 : variant.usesCards ? 0.10 : 0.39
@@ -459,6 +480,10 @@ enum GlassAppearanceVariant: String, CaseIterable {
     var transparency: Double {
         get { sample.transparency }
         set { sample.transparency = newValue }
+    }
+    var fontColor: GlassFontColor {
+        get { sample.fontColor }
+        set { sample.fontColor = newValue }
     }
 }
 

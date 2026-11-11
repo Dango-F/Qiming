@@ -32,6 +32,7 @@ enum Language: String { case chinese, english }
     var connectionUnverified = false
     var externalBlockers: [ExternalSleepBlocker] = []
     var glassAppearance = GlassAppearanceVariant.backupBlack
+    var glassFontColor = GlassFontColor.black
     var glassTransparency = 0.75
     var duration: TimeInterval = 0
     private var untilDate: Date?
@@ -593,6 +594,13 @@ enum Language: String { case chinese, english }
             if durationPopup(in: durationPanel.view) !== stablePopup || stablePopup?.title != L("duration.30m")
                 || stablePopup?.item(at: 4)?.title != L("duration.custom") {
                 failures.append("existing popup did not switch from custom value back to preset")
+            }
+            stablePopup?.selectItem(at: 5) // The native menu selects the command before the date is saved.
+            await durationModel.changePanelDuration(1800, until: Date().addingTimeInterval(5400))
+            durationModel.glassFontColor = .white
+            durationPanel.prepareForPresentation()
+            if stablePopup?.title != L("duration.until") || stablePopup?.indexOfSelectedItem != 5 {
+                failures.append("scheduled end time lost its display title or selection after changing font color")
             }
             print("CHECK custom duration \(language): 90, 92.5 and 10080 minutes shown instead of generic custom label")
             print("CHECK compact duration \(language): selected-title widths=\(widths); minutes label remains visible")

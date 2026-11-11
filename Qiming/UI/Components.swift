@@ -188,7 +188,7 @@ enum PanelIndicatorState: CaseIterable {
     }
 }
 
-@MainActor final class ActionButton: NSButton {
+@MainActor final class ActionButton: NSButton, GlassTextStyling {
     var actionBlock: (() -> Void)?
     var blocksActions = false
     init(_ title: String, symbol: String? = nil, action: @escaping () -> Void) {
@@ -202,15 +202,12 @@ enum PanelIndicatorState: CaseIterable {
     }
     required init?(coder: NSCoder) { fatalError("init(coder:)") }
     @objc private func invoke() { if !blocksActions { actionBlock?() } }
-    override func viewDidMoveToSuperview() { super.viewDidMoveToSuperview(); updateComparisonText() }
-    override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); updateComparisonText() }
-    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); updateComparisonText() }
-    private func updateComparisonText() {
-        guard let variant = UI.glassVariant(for: self), !title.isEmpty else { return }
-        guard variant == .backupBlack || variant.usesWhiteInk else { return }
-        let ink: NSColor = variant.usesWhiteInk
-            ? NSColor.white.withAlphaComponent(isEnabled ? 1 : 0.48)
-            : NSColor.black.withAlphaComponent(!isBordered && font?.pointSize == 11 ? 0.82 : 1)
+    override func viewDidMoveToSuperview() { super.viewDidMoveToSuperview(); updateTextColor() }
+    override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); updateTextColor() }
+    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); updateTextColor() }
+    func updateTextColor() {
+        guard let color = UI.glassFontColor(for: self), !title.isEmpty else { return }
+        let ink = color.ink.withAlphaComponent(isEnabled ? 1 : 0.48)
         attributedTitle = NSAttributedString(string: title, attributes: [
             .font: font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize),
             .foregroundColor: ink
@@ -266,7 +263,7 @@ enum PanelIndicatorState: CaseIterable {
     required init?(coder: NSCoder) { fatalError("init(coder:") }
 }
 
-@MainActor final class PanelDurationPopup: NSPopUpButton {
+@MainActor final class PanelDurationPopup: NSPopUpButton, GlassTextStyling {
     var blocksInteraction = false
     override func mouseDown(with event: NSEvent) {
         if !blocksInteraction { super.mouseDown(with: event) }
@@ -281,16 +278,15 @@ enum PanelIndicatorState: CaseIterable {
         !blocksInteraction && super.accessibilityPerformPress()
     }
     func showSelection(at index: Int, customSeconds: TimeInterval) {
-        if index == 4 {
-            selectItem(at: index)
-            showCustomDuration(seconds: customSeconds)
-        } else {
-            if let popupCell = cell as? NSPopUpButtonCell { popupCell.usesItemFromMenu = true }
-            selectItem(at: index)
-            setAccessibilityValue(title)
-            updateComparisonText()
-            invalidateIntrinsicContentSize()
-        }
+        guard let popupCell = cell as? NSPopUpButtonCell, let choice = item(at: index) else { return }
+        let displayTitle = index == 4 ? Self.customTitle(seconds: customSeconds) : choice.title
+        selectItem(at: index)
+        // Keep a separate display item so custom values and font colors never change the menu options.
+        popupCell.usesItemFromMenu = false
+        popupCell.menuItem = NSMenuItem(title: displayTitle, action: nil, keyEquivalent: "")
+        setAccessibilityValue(displayTitle)
+        updateTextColor()
+        invalidateIntrinsicContentSize()
     }
     static func customTitle(seconds: TimeInterval) -> String {
         let formatter = NumberFormatter()
@@ -300,35 +296,20 @@ enum PanelIndicatorState: CaseIterable {
         let minutes = formatter.string(from: NSNumber(value: seconds / 60)) ?? "\(seconds / 60)"
         return minutes + " " + L("duration.minutes")
     }
-    func showCustomDuration(seconds: TimeInterval) {
-        guard let popupCell = cell as? NSPopUpButtonCell else { return }
-        // A separate display item keeps the selected menu command named Custom Duration.
-        popupCell.usesItemFromMenu = false
-        popupCell.menuItem = NSMenuItem(title: Self.customTitle(seconds: seconds), action: nil, keyEquivalent: "")
-        setAccessibilityValue(Self.customTitle(seconds: seconds))
-        updateComparisonText()
-        invalidateIntrinsicContentSize()
-    }
     override var intrinsicContentSize: NSSize {
         let ink = (title as NSString).size(withAttributes: [.font: font ?? NSFont.systemFont(ofSize: 13)]).width
         return NSSize(width: max(80, ceil(ink) + 36), height: super.intrinsicContentSize.height)
     }
-    override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); updateComparisonText() }
-    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); updateComparisonText() }
-    private func updateComparisonText() {
-        guard UI.glassVariant(for: self) == .backupBlack else { return }
-        let ink = NSAttributedString(string: title, attributes: [
-            .font: font ?? NSFont.systemFont(ofSize: 13), .foregroundColor: NSColor.black
+    override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); updateTextColor() }
+    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); updateTextColor() }
+    func updateTextColor() {
+        guard let color = UI.glassFontColor(for: self), let popupCell = cell as? NSPopUpButtonCell,
+              let displayed = popupCell.menuItem else { return }
+        guard !popupCell.usesItemFromMenu else { return }
+        displayed.attributedTitle = NSAttributedString(string: displayed.title, attributes: [
+            .font: font ?? NSFont.systemFont(ofSize: 13), .foregroundColor: color.ink
         ])
-        if let selectedItem {
-            selectedItem.attributedTitle = NSAttributedString(string: selectedItem.title, attributes: [
-                .font: font ?? NSFont.systemFont(ofSize: 13), .foregroundColor: NSColor.black
-            ])
-        }
-        // NSPopUpButton draws its display menu item directly. Style that item,
-        // rather than only NSButton's title, so menu tracking preserves black ink.
-        if let popupCell = cell as? NSPopUpButtonCell { popupCell.menuItem?.attributedTitle = ink }
-        attributedTitle = ink
+        needsDisplay = true
     }
 }
 
@@ -357,10 +338,10 @@ enum PanelIndicatorState: CaseIterable {
 }
 
 @MainActor enum UI {
-    static func glassVariant(for view: NSView) -> GlassAppearanceVariant? {
+    static func glassFontColor(for view: NSView) -> GlassFontColor? {
         var ancestor = view.superview
         while let current = ancestor {
-            if let glass = current as? GlassSurfaceView { return glass.variant }
+            if let glass = current as? GlassSurfaceView { return glass.fontColor }
             ancestor = current.superview
         }
         return nil
@@ -370,9 +351,6 @@ enum PanelIndicatorState: CaseIterable {
     }
     static let panelSecondary = NSColor(name: "QimingPanelSecondary") { appearance in
         NSColor(white: appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua ? 0.88 : 0.18, alpha: 1)
-    }
-    static let panelPrimary = NSColor(name: "QimingPanelPrimary") { appearance in
-        NSColor(white: appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua ? 0.97 : 0.06, alpha: 1)
     }
     static func label(_ text: String, size: CGFloat = 13, weight: NSFont.Weight = .regular,
                       secondary: Bool = false, width: CGFloat? = nil) -> NSTextField {
@@ -499,9 +477,8 @@ enum PanelIndicatorState: CaseIterable {
     override func hitTest(_ point: NSPoint) -> NSView? { nil }
 }
 
-/// Semantic foregrounds follow the app appearance. The content backing supplies contrast;
-/// labels themselves remain flat and sharp instead of relying on a halo or drop shadow.
-@MainActor private final class ReadableLabel: NSTextField {
+/// Glass labels use the chosen ink. Standard windows use system label colors.
+@MainActor private final class ReadableLabel: NSTextField, GlassTextStyling {
     private static let whiteInkShadow: NSShadow = {
         let shadow = NSShadow()
         shadow.shadowColor = NSColor.black.withAlphaComponent(0.48)
@@ -514,15 +491,11 @@ enum PanelIndicatorState: CaseIterable {
     override func viewDidMoveToSuperview() { super.viewDidMoveToSuperview(); updateTextColor() }
     override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); updateTextColor() }
     override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); updateTextColor() }
-    private func updateTextColor() {
-        let variant = UI.glassVariant(for: self)
-        shadow = variant?.usesWhiteInk == true ? Self.whiteInkShadow : nil
-        if variant == .backupBlack {
-            textColor = NSColor.black.withAlphaComponent(secondary ? 0.92 : 1)
-        } else if variant?.usesWhiteInk == true {
-            textColor = NSColor.white.withAlphaComponent(secondary ? 0.94 : 1)
-        } else if variant == .optimized {
-            textColor = secondary ? UI.panelSecondary : UI.panelPrimary
+    func updateTextColor() {
+        let color = UI.glassFontColor(for: self)
+        shadow = color == .white ? Self.whiteInkShadow : nil
+        if let color {
+            textColor = color.ink.withAlphaComponent(secondary ? 0.94 : 1)
         } else {
             textColor = secondary ? .secondaryLabelColor : .labelColor
         }

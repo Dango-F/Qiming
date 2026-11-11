@@ -71,6 +71,13 @@ struct EventEntry {
         get { .current }
         set { UserDefaults.standard.set(newValue.rawValue, forKey: "glassAppearanceVariant"); changed() }
     }
+    var glassFontColor: GlassFontColor {
+        didSet {
+            guard glassFontColor != oldValue else { return }
+            UserDefaults.standard.set(glassFontColor.rawValue, forKey: "glassFontColor")
+            changed()
+        }
+    }
     var glassTransparency: Double {
         get {
             guard UserDefaults.standard.object(forKey: "glassTransparency") != nil else {
@@ -108,6 +115,15 @@ struct EventEntry {
     }
 
     init() {
+        let defaults = UserDefaults.standard
+        if let savedColor = defaults.string(forKey: "glassFontColor").flatMap(GlassFontColor.init(rawValue:)) {
+            glassFontColor = savedColor
+        } else {
+            let variant = GlassAppearanceVariant.current
+            let dark = UI.isDark(NSApp.effectiveAppearance)
+            glassFontColor = variant.usesGrayBacking || (variant == .optimized && dark) ? .white : .black
+            defaults.set(glassFontColor.rawValue, forKey: "glassFontColor")
+        }
         powerSource = PowerSourceTracker(onAC: power.onAC, checkedAt: power.checkedAt)
         helper.disconnected = { [weak self] in
             guard let self else { return }

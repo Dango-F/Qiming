@@ -105,6 +105,7 @@ import QuartzCore
     }
 
     private func render() {
+        glass.fontColor = model.glassFontColor
         glass.variant = model.glassAppearance
         glass.transparency = model.glassTransparency
         let warnsAboutDisplay = pending == nil && model.messageKey == nil && model.isActive
@@ -402,6 +403,7 @@ import QuartzCore
                 Task { await model.changePanelDuration(selection.seconds, until: date) }
             }
         }
+        durationSignature = ""
         render()
     }
 }

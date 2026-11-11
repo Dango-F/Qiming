@@ -30,6 +30,7 @@ import ServiceManagement
             guard let self else { return }
             if self.language != Localization.language.rawValue { self.build() }
             self.glassPreview?.variant = self.model.glassAppearance
+            self.glassPreview?.fontColor = self.model.glassFontColor
             self.glassPreview?.transparency = self.model.glassTransparency
             self.glassVariantPicker?.selectItem(at: GlassAppearanceVariant.allCases.firstIndex(of: self.model.glassAppearance) ?? 0)
             if self.glassSlider?.doubleValue != self.model.glassTransparency {
@@ -184,7 +185,16 @@ import ServiceManagement
         variant.setAccessibilityLabel(L("glass.variant"))
         glassVariantPicker = variant
         let variantRow = row("glass.variant", variant)
+        let colors = GlassFontColor.allCases
+        let fontColor = ClosurePopup(titles: colors.map { L($0.titleKey) },
+            index: model.glassFontColor == .black ? 0 : 1) { [weak self] index in
+                self?.model.glassFontColor = colors[index]
+            }
+        fontColor.setAccessibilityLabel(L("glass.fontColor"))
+        fontColor.setAccessibilityIdentifier("qiming.settings.glassFontColor")
+        let fontColorRow = row("glass.fontColor", fontColor)
         let preview = GlassPreviewView(); preview.variant = model.glassAppearance
+        preview.fontColor = model.glassFontColor
         preview.transparency = model.glassTransparency
         glassPreview = preview
         let slider = NSSlider(value: model.glassTransparency, minValue: 0, maxValue: 1,
@@ -209,9 +219,10 @@ import ServiceManagement
         }
         reset.controlSize = .small
         let header = UI.row([UI.label("Liquid Glass", weight: .semibold), UI.spacer(), reset])
-        let stack = UI.column([header, variantRow, UI.label(L("glass.variant.detail"), size: 11, secondary: true, width: 540), preview, UI.label(L("glass.transparency"), size: 12), track, endpoints,
+        let stack = UI.column([header, variantRow, UI.label(L("glass.variant.detail"), size: 11, secondary: true, width: 540),
+                              fontColorRow, preview, UI.label(L("glass.transparency"), size: 12), track, endpoints,
                               UI.label(L("glass.detail"), size: 12, secondary: true, width: 540)], spacing: 10)
-        for child in [header, variantRow, preview, track, endpoints] { UI.fillWidth(child, in: stack) }
+        for child in [header, variantRow, fontColorRow, preview, track, endpoints] { UI.fillWidth(child, in: stack) }
         return stack
     }
     @objc private func glassChanged(_ sender: NSSlider) { model.glassTransparency = sender.doubleValue }

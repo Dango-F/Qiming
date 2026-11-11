@@ -3229,6 +3229,57 @@
         }
       }
     },
+    "glass.fontColor": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Font Color"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字体颜色"
+          }
+        }
+      }
+    },
+    "glass.fontColor.black": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "黑色"
+          }
+        }
+      }
+    },
+    "glass.fontColor.white": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "白色"
+          }
+        }
+      }
+    },
     "glass.variant": {
       "extractionState": "manual",
       "localizations": {
@@ -3320,13 +3371,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gray Glass uses a continuous gray surface with white text. Glass Cards groups the display policies in a single rounded tile."
+            "value": "Gray Glass uses a continuous gray surface. Glass Cards groups the display policies in a single rounded tile."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "灰幕玻璃以整块中性灰衬托白字。模块玻璃将四个内屏策略放在同一张圆角灰玻璃卡片中。"
+            "value": "灰幕玻璃使用整块中性灰。模块玻璃将四个内屏策略放在同一张圆角灰玻璃卡片中。"
           }
         }
       }
