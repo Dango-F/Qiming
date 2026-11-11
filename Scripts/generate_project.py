@@ -23,7 +23,7 @@ add('products','{isa = PBXGroup; children = '+arr([ref('product:'+n) for n,_,_ i
 for folder in ['Qiming', 'Shared', 'QimingHelper', 'QimingTests', 'Config']:
     add('group:'+folder, '{isa = PBXGroup; children = '+arr([ref('file:'+f) for f in files if f.startswith(folder+'/')])+'; name = '+q(folder)+'; sourceTree = "<group>"; }')
 add('main','{isa = PBXGroup; children = '+arr([ref('group:'+f) for f in ['Qiming', 'Shared', 'QimingHelper', 'QimingTests', 'Config']]+[ref('products')])+'; sourceTree = "<group>"; }')
-common = {'SDKROOT':'macosx','MACOSX_DEPLOYMENT_TARGET':'14.0','ARCHS':'arm64','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','ENABLE_HARDENED_RUNTIME':'YES','CODE_SIGN_STYLE':'Automatic','DEAD_CODE_STRIPPING':'YES','SWIFT_EMIT_LOC_STRINGS':'NO','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','CURRENT_PROJECT_VERSION':'1','MARKETING_VERSION':'0.1.0'}
+common = {'SDKROOT':'macosx','MACOSX_DEPLOYMENT_TARGET':'14.0','ARCHS':'arm64','SWIFT_VERSION':'6.0','SWIFT_STRICT_CONCURRENCY':'complete','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','ENABLE_HARDENED_RUNTIME':'YES','CODE_SIGN_STYLE':'Automatic','DEAD_CODE_STRIPPING':'YES','SWIFT_EMIT_LOC_STRINGS':'NO','LOCALIZATION_PREFERS_STRING_CATALOGS':'YES','CURRENT_PROJECT_VERSION':'2','MARKETING_VERSION':'0.1.1'}
 
 def config_list(key, extra):
     ids=[]
